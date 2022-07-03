@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Kiểm tra đạo văn</title>
+  <link rel="shortcut icon" type="icon.png" href="/img/logo.png"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Popper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <!-- <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"> </script> -->
+  <!-- Latest compiled JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="/eel.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.2/docxtemplater.js"></script>
+  <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip.js"></script>
+  <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip-utils.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+  <style>
+    .hide {
+      display: none;
+    }
+    .loading {
+      z-index: -1;
+      background: url(https://cdn.dribbble.com/users/1201592/screenshots/9078494/media/422a760a51cef7de2fa3db9daf697853.gif) center no-repeat ;
+      /* https://i.pinimg.com/originals/f5/27/0a/f5270acbc4b98112fcd520d2eea023de.gif */
+      /* https://i.pinimg.com/originals/9f/36/29/9f36292ea8634d4472ae384ed2181640.gif */
+      background-size: 250px 175px;
+      background-position: center;
+  }
+
+  </style>
+
+</head>
+
+<body id="cv">
+
+<div class="container text-center" >
+    <img class="behind" src="https://i.pinimg.com/originals/ea/66/cd/ea66cdf309ec3341db8d38bb298afa0f.gif"  width="180px" height="130px"></img>
+    <h2>KIỂM TRA ĐẠO VĂN</h2>
+    <h6 class="font-italic">Phần mềm hỗ trợ người dùng kiếm tra độ trùng lặp của văn bản.</h6>
+  
+    <div class="row">
+      <div class="form-group col-md-12 ">
+
+        <div class="form-group row">
+          <label class="col-sm-6 col-form-label text-left" >Giới hạn: <span class="font-weight-bold" id="wordcount" ></span> /1000 Từ</label>
+            <div class="col-sm-6 text-right">
+              <svg id="i-trash" title="Làm mới" class="delete" onclick="deleteData()" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="25" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M28 6 L6 6 8 30 24 30 26 6 4 6 M16 12 L16 24 M21 12 L20 24 M11 12 L12 24 M12 6 L13 2 19 2 20 6"></path></svg>
+            </div>
+        </div>
+        
+        <textarea class="form-control shadow-lg p-3 mb-3 bg-white botron border-success waiting" spellcheck="false" onchange="countWord()" oninput="countWord()" onclick="countWord()" name="scontent" rows="12" id="data" placeholder="Nhập vào đây để kiểm tra đạo văn..."></textarea>
+        
+        <button type="submit" onclick="getData()" value="Kiểm tra" class="btn btn-grad col-xl-2 col-lg-4 col-md-4 bton col-4 btn-grid upload rounded-pill">
+          <label>
+            <i class="loading-icon fa fa-spinner fa-spin hide white"></i>
+            <span class="kiemtra">Kiểm tra</span>
+          </label>
+        </button>
+
+        <button class="btn btn-grad-blue col-xl-2 col-lg-4 col-md-4 col-4 btn-grid upload rounded-pill">
+          <label>
+            <i class="fa fa-upload "></i>
+            <span title="Định dạng file hỗ trợ: .txt, .doc, .docx">Upload</span>
+            <input type="file" id="file" name="file" accept=".txt, .doc, .docx" class="d-none" onchange="getFile()">
+          </label>
+        </button>
+
+        
+        <br><br>
+        <div id="result"></div> 
+        <br>
+        <div id="num-sent"></div>
+        <div id="download"></div>
+        
+
+        <!-- <div class="d-flex justify-content-center">
+
+            <div class="ngang">
+              <label class="text-left text-success daovan">KHÔNG ĐẠO VĂN</label>
+            </div>  
+
+            <div role="progressbar-green" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="--value:50">
+            </div>
+            <div role="progressbar-red" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="--value:50">
+            </div>
+            
+            <div class="ngang">
+              <label class="text-right text-danger daovan">ĐẠO VĂN</label>
+            </div>
+            
+        </div> -->
+
+        <!-- <div class="d-flex">
+          <label class="col-sm-5 text-right mt-3">Đạo văn</label>
+          <div class="progress shadow">
+            <span class="progress-bar-red" style="width: 80%"></span>
+          </div>
+          <label class="col-sm-4 text-left text-danger display-4">50%</label>
+        </div>
+        <div class="d-flex">
+          <label class="col-sm-5 text-right mt-3">Không đạo văn</label>
+          <div class="progress shadow">
+            <span class="progress-bar-green" style="width: 80%"></span>
+          </div>
+          <label class="col-sm-4 text-left text-success display-4">50%</label>
+        </div>
+      </div> -->
+
+     
+      
+
+      
+           
+        <!-- <table class="table shadow-lg p-3 mb-5 bg-white botron">
+          <thead>
+            <tr>
+              <th  scope="col">STT</th>
+              <th  scope="col">Câu văn</th>
+              <th  scope="col">Link</th>
+              <th  scope="col">Phần trăm</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th id="stt">fdsfdsfsf</th>
+              <td  id="text">fsdfdsfdsfdsfsdfdsfdsfdsdsfdsfsdfdsfdsfdsfsdfdsfdsfds</td>
+              <td  id="percent">fdsfdsfdsfsdfdsfdsfdsfsdfdsfdsfdsfsdfdsfdsfdsfdsfdsfdsffsdfdsfdsfdfdsfsdfdfdsfdsfds</td>
+              <td ><a href="" id="link"></a></td>
+            </tr>
+          </tbody>
+        </table> -->
+
+      </div>
+    </div>
+</div>
+<!-- partial -->
+</body>
+
+</html>
